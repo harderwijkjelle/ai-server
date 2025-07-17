@@ -32,15 +32,19 @@ app.post("/generate", upload.single("image"), async (req, res) => {
     console.log("Prompt:", prompt);
     console.log("Afbeelding grootte:", base64Image.length);
 
-    const output = await replicate.run(
-      "tstramer/stable-diffusion-xl:db21e45c1c30eab81f7fd47220f0eab2a04b4b76ce066d3cadb8b5c0b1f3bfa4",
-      {
-        input: {
-          image: base64Image,
-          prompt: prompt
-        }
-      }
-    );
+const output = await replicate.run(
+  "andreasjansson/controlnet-image-to-image:db21e45c1c30eab81f7fd47220f0eab2a04b4b76ce066d3cadb8b5c0b1f3bfa4",
+  {
+    input: {
+      image: base64Image,
+      prompt: prompt,
+      a_prompt: "high quality, detailed",
+      num_inference_steps: 30,
+      strength: 0.8,
+      guidance_scale: 7.5
+    }
+  }
+);
 
     fs.unlinkSync(imagePath); // Verwijder tijdelijk bestand
 
