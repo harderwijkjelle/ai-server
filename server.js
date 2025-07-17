@@ -25,15 +25,16 @@ app.post("/generate", upload.single("image"), async (req, res) => {
   const prompt = `Maak een ${style} afbeelding van deze foto`;
 
   try {
-    const output = await replicate.run(
-      "stability-ai/sdxl:latest",
-      {
-        input: {
-          image: base64Image,
-          prompt: prompt
-        }
-      }
-    );
+const output = await replicate.run(
+  "tstramer/stable-diffusion-xl:db21e45c1c30eab81f7fd47220f0eab2a04b4b76ce066d3cadb8b5c0b1f3bfa4",
+  {
+    input: {
+      image: base64Image,
+      prompt: prompt
+    }
+  }
+);
+
 
     fs.unlinkSync(imagePath);
     res.json({ image_url: output[0] });
